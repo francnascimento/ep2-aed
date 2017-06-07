@@ -3,12 +3,18 @@
 #include <stdlib.h>
 #include <string.h>
 
+ typedef struct listaPosicoes{
+  int posi;
+  struct listaPosicoes *prox;
+} position;
+
 typedef struct auxi{
   char **palavras;
 } TEXTO;
 
 typedef struct aux{
-  int pos;
+  position *pos;
+  //int pos;
   struct aux **lista;
   char letra;
 } NO;
@@ -34,22 +40,41 @@ void adicionaTexto(NO *raiz, char *text){
 
     if( !(aux->lista[indice]) ){ //Ve se a letra já foi inserida
       aux->lista[indice] = (NO*) malloc(sizeof(NO)); //Cria um novo nó
+      aux->lista[indice]->pos = (position*) malloc(sizeof(position)); //Cria uma nova lista ligada que guarda todas as posições da letra
+      aux->lista[indice]->pos->prox = NULL;
+      aux->lista[indice]->letra = text[i];
+      aux->lista[indice]->lista = (NO **) malloc(26*sizeof(NO)); //Atribuições ao nó
 
-      if(text[i+1] == ' '){  //Se o próximo caractere for um espaço, então está no final de uma palavra, então deve-se registrar o seu início
+      if(text[i+1] == ' ' || i == strlen(text)-1 ){
+        position *auxiliar = aux->lista[indice]->pos;
         int ini = i;
 
         while(text[ini-1] != ' ' && ini != 0){ //ini guarda o começo da palavra
           ini--;
         }
-
-        aux->lista[indice]->pos = ini; //Guarda o começo da palavra no nó
-      }else{
-        aux->lista[indice]->pos = -1; //Se a letra não for o final de uma palavra, recebe -1
+        auxiliar->posi = ini; //Guarda o começo da palavra no nó
       }
 
-      aux->lista[indice]->letra = text[i];
-      aux->lista[indice]->lista = (NO **) malloc(26*sizeof(NO)); //Atribuições ao nó
+      else{
+        aux->lista[indice]->pos->posi = -1; //Se a letra não for o final de uma palavra, recebe -1
+      }
+
     }
+    else if( text[i+1] == ' ' || i == strlen(text)-1 ){ //Se a letra já foi inserida, porém ela é a última de uma palavra, insira a posição no final da lista
+        position *auxiliar = aux->lista[indice]->pos;
+
+        while(auxiliar->prox){ //Para ir até o final da lista
+          auxiliar = auxiliar->prox;
+        }
+        int ini = i;
+
+        while(text[ini-1] != ' ' && ini != 0){
+          ini--;
+        }
+        auxiliar->prox = (position*) malloc(sizeof(position)); //Cria um novo elemnto no final da lista para guardar a posição
+        auxiliar->prox->prox = NULL;
+        auxiliar->prox->posi = ini;
+      }
 
     aux = aux->lista[indice]; //aux aponta para a letra que acabou de ser inserida para continuar a inserção da palavra
   }
@@ -88,7 +113,7 @@ int busca(NO *arv, char *word){
   for(i = 0; i<strlen(word); i++){
     busca = busca->lista[word[i] - 97];
   }
-  return busca->pos;
+  return busca->pos->posi;
 }
 
 
@@ -98,13 +123,13 @@ void main(){
   iniciaArv(arv);
 
 
-  char *text = "forget your lust and the rich men gold";
+  char *text = "forget your lust and the rich lust men gold";
   char *text2 = "all that you need is in your soul";
   adicionaTexto(arv, text);
   //adicionaTexto(arv, text2);
   imprime(arv);
   printf("\n");
-  printf("Posicao: %d\n", busca(arv, "me"));
+  printf("Posicao: %d\n", busca(arv, "lust"));
   //visu(arv);
 
 }
