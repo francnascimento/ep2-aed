@@ -1,3 +1,4 @@
+//TRIE
 #include <stdbool.h>   // variaveis bool assumem valores "true" ou "false"
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +15,6 @@ typedef struct auxi{
 
 typedef struct aux{
   position *pos;
-  //int pos;
   struct aux **lista;
   char letra;
 } NO;
@@ -144,8 +144,6 @@ void main(){
   }
 
   adicionaTexto(arv, a[0]);
-  imprime(arv);
-  printf("\n");
 
   char* token;
   char* string;
@@ -153,22 +151,12 @@ void main(){
 
   string = strdup(a[2]);
 
-if (string != NULL) {
-
+  if (string != NULL) {
   tofree = string;
-
-  while ((token = strsep(&string, " ")) != NULL)
-  {
+  while ((token = strsep(&string, " ")) != NULL){
     busca(arv, token);
-    //printf("%s\n", token);
   }
-
   free(tofree);
-}
-
-
-
-  //busca(arv, a[2]);
-  //visu(arv);
+  }
 
 }
