@@ -108,6 +108,7 @@ void visu(NO *arv){
 }
 
 void busca(NO *arv, char *word){
+  int um = -1;
   NO *busca = arv;
   int i;
   for(i = 0; i<strlen(word); i++){
@@ -116,7 +117,7 @@ void busca(NO *arv, char *word){
         busca = busca->lista[word[i] - 97];
     }
     else{
-        printf("-1");
+        printf("%d\n", um);
         break;
     }
   }
