@@ -29,8 +29,8 @@ void iniciaArv(NO *raiz){
 void adicionaTexto(NO *raiz, char *text){
   int i, indice;
   NO *aux = raiz;
+  int j = strlen(text);
   for(i = 0; i<strlen(text); i++){
-
     if(text[i] == ' '){   //Pula os espaços, para adicionar apenas palavras sem espaços na árvore
       aux = raiz;
       continue;
@@ -107,13 +107,18 @@ void visu(NO *arv){
   }
 }
 
-int busca(NO *arv, char *word){
+void busca(NO *arv, char *word){
   NO *busca = arv;
   int i;
   for(i = 0; i<strlen(word); i++){
+    if(word[i] == ' ') break;
     busca = busca->lista[word[i] - 97];
   }
-  return busca->pos->posi;
+  while(busca->pos){
+      printf("%d ", busca->pos->posi);
+      busca->pos = busca->pos->prox;
+  }
+  printf("\n");
 }
 
 
@@ -123,13 +128,47 @@ void main(){
   iniciaArv(arv);
 
 
-  char *text = "forget your lust and the rich lust men gold";
-  char *text2 = "all that you need is in your soul";
-  adicionaTexto(arv, text);
-  //adicionaTexto(arv, text2);
+
+  int i;
+  char text[10000];
+  char a[3][10000];
+  int j = 0;
+  int blank = 1;
+  while(fgets(text, sizeof(text), stdin) != NULL){
+      int x;
+      for(x = 0; x<strlen(text)-1; x++){
+          a[j][x] = text[x];
+      }
+      if(j==2 && text[x]) blank++;
+      j++;
+  }
+
+  adicionaTexto(arv, a[0]);
   imprime(arv);
   printf("\n");
-  printf("Posicao: %d\n", busca(arv, "lust"));
+
+  char* token;
+  char* string;
+  char* tofree;
+
+  string = strdup(a[2]);
+
+if (string != NULL) {
+
+  tofree = string;
+
+  while ((token = strsep(&string, " ")) != NULL)
+  {
+    busca(arv, token);
+    //printf("%s\n", token);
+  }
+
+  free(tofree);
+}
+
+
+
+  //busca(arv, a[2]);
   //visu(arv);
 
 }
