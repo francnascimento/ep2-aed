@@ -29,11 +29,6 @@ int* prefixos(char palavra[]){
     }
 
     int x;
-    printf("Prefixos:\n");
-    for (x = 0; x < len; x++) {
-        printf("%d ", prefix[x]);
-    }
-    printf("\n");
     return prefix;
 
 }
@@ -42,17 +37,21 @@ int* prefixos(char palavra[]){
 
 
 
-int KMP(char texto[], char palavra[]){
+void KMP(char texto[], char palavra[]){
     int *F = prefixos(palavra);
     int i = 0;
     int j = 0;
     int n = strlen(texto);
     int m = strlen(palavra);
+    int find = 0;
 
     while(i < n){
         if(texto[i] == palavra[j]){
-            if(j == m-1){
-                return i-j;
+            if(j == m-1 && (i - j == 0 || texto[i-j-1] == ' ') ){
+                printf("%d ", i-j);
+                find++;
+                i++;
+                j = 0;
             }else{
                 i++;
                 j++;
@@ -64,15 +63,46 @@ int KMP(char texto[], char palavra[]){
                 i++;
         }
     }
-    return -1;
+    printf("\n");
+    if(find == 0) printf("-1\n");
 }
 
 
 
 void main(){
-    char text[] = "abchabykabcdabcdabcyeabcdeklj";
-    char word[] = "abcdabcy";
-    printf("A palavra comeca em: %d\n", KMP(text, word) );
 
-    //prefixos(word);
+
+
+    int i;
+    char text[10000];
+    char a[3][10000];
+    int j = 0;
+    int blank = 1;
+    while(fgets(text, sizeof(text), stdin) != NULL){
+        int x;
+        for(x = 0; x<strlen(text)-1; x++){
+            a[j][x] = text[x];
+        }
+        if(j==2 && text[x]) blank++;
+        j++;
+    }
+
+
+    char* token;
+    char* string;
+    char* tofree;
+
+    string = strdup(a[2]);
+
+    if (string != NULL) {
+        tofree = string;
+        while ((token = strsep(&string, " ")) != NULL){
+          KMP(a[0], token);
+        }
+        free(tofree);
+    }
+
+
+
+
 }
