@@ -112,7 +112,13 @@ void busca(NO *arv, char *word){
   int i;
   for(i = 0; i<strlen(word); i++){
     if(word[i] == ' ') break;
-    busca = busca->lista[word[i] - 97];
+    if(busca->lista[word[i] - 97]){
+        busca = busca->lista[word[i] - 97];
+    }
+    else{
+        printf("-1");
+        break;
+    }
   }
   while(busca->pos){
       printf("%d ", busca->pos->posi);
