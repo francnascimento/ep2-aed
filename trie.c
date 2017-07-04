@@ -135,35 +135,20 @@ void main(){
   iniciaArv(arv);
 
 
+  char txt[10000]; 
+  scanf("%[^\n]", txt);
 
-  int i;
-  char text[10000];
-  char a[3][10000];
-  int j = 0;
-  int blank = 1;
-  while(fgets(text, sizeof(text), stdin) != NULL){
-      int x;
-      for(x = 0; x<strlen(text)-1; x++){
-          a[j][x] = text[x];
-      }
-      if(j==2 && text[x]) blank++;
-      j++;
+  int num;
+  scanf("%d", &num);
+
+  adicionaTexto(arv, txt);
+
+  while(num > 0){
+      char word[50];
+      scanf("%s", word);
+      busca(arv, word);
+      num--;
   }
 
-  adicionaTexto(arv, a[0]);
-
-  char* token;
-  char* string;
-  char* tofree;
-
-  string = strdup(a[2]);
-
-  if (string != NULL) {
-  tofree = string;
-  while ((token = strsep(&string, " ")) != NULL){
-    busca(arv, token);
-  }
-  free(tofree);
-  }
 
 }
