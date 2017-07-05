@@ -1,4 +1,5 @@
 //TRIE
+#include <time.h>
 #include <stdbool.h>   // variaveis bool assumem valores "true" ou "false"
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,7 +91,7 @@ void imprime(NO *arv){
   int i;
   for(i = 0; i<26; i++){
     if(arv->lista[i]) {
-      printf("%c", arv->lista[i]->letra);
+      //printf("%c", arv->lista[i]->letra);
       imprime(arv->lista[i]);
     }
   }
@@ -137,12 +138,11 @@ int busca(NO *arv, char *word){
 
 
 void main(){
+
   NO *arv = (NO*) malloc(sizeof(NO));
   iniciaArv(arv);
 
-
   char txt[10000];
-  setvbuf(stdin, NULL, _IONBF, 0);
   scanf("%[^\n]%*c", txt);
   int t = strlen(txt);
 
