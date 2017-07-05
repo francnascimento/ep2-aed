@@ -27,10 +27,14 @@ void iniciaArv(NO *raiz){
 
 
 void adicionaTexto(NO *raiz, char *text){
+    int teste = 0;
   int i, indice;
   NO *aux = raiz;
   int j = strlen(text);
   for(i = 0; i<strlen(text); i++){
+      if(text[i-1] == ' ' && text[i] == 'e' && text[i+1] == 'x' && text[i+2] == ' '){
+          teste++;
+      }
     if(text[i] == ' '){   //Pula os espaços, para adicionar apenas palavras sem espaços na árvore
       aux = raiz;
       continue;
@@ -107,7 +111,7 @@ void visu(NO *arv){
   }
 }
 
-void busca(NO *arv, char *word){
+int busca(NO *arv, char *word){
   int um = -1;
   NO *busca = arv;
   int i;
@@ -118,6 +122,7 @@ void busca(NO *arv, char *word){
     }
     else{
         printf("%d\n", um);
+        return 0;
         break;
     }
   }
@@ -126,6 +131,7 @@ void busca(NO *arv, char *word){
       busca->pos = busca->pos->prox;
   }
   printf("\n");
+  return 1;
 }
 
 
@@ -135,13 +141,16 @@ void main(){
   iniciaArv(arv);
 
 
-  char txt[10000]; 
-  scanf("%[^\n]", txt);
+  char txt[10000];
+  setvbuf(stdin, NULL, _IONBF, 0);
+  scanf("%[^\n]%*c", txt);
+  int t = strlen(txt);
 
   int num;
   scanf("%d", &num);
 
   adicionaTexto(arv, txt);
+
 
   while(num > 0){
       char word[50];
@@ -149,6 +158,5 @@ void main(){
       busca(arv, word);
       num--;
   }
-
 
 }
