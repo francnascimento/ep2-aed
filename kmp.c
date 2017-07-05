@@ -1,3 +1,4 @@
+//KMP
 #include <stdbool.h>   // variaveis bool assumem valores "true" ou "false"
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +9,6 @@
 int* prefixos(char palavra[]){
     int len = strlen(palavra);
     int *prefix = (int*) calloc(len, sizeof(int));
-    //printf(palavra);
     prefix[0] = 0;
 
     int j = 0;
@@ -18,12 +18,8 @@ int* prefixos(char palavra[]){
         prefix[i] = 0;
         while(j>0 && palavra[j] != palavra[i]){
             j = prefix[j-1];
-            //printf("%d %d\n", i, j);
-            //while(j>0 && palavra[j] != palavra[i])
-            //    j--;
         }
         if(palavra[j] == palavra[i]){
-            //printf("\nentrou no j %d %d\n", i, j+1);
             prefix[i] = j+1;
             j++;
         }
@@ -73,8 +69,6 @@ void KMP(char texto[], char palavra[]){
 
 
 void main(){
-    clock_t start, end, total;
-    start = clock();
 
     int num;
     scanf("%d", &num);
@@ -92,10 +86,5 @@ void main(){
         KMP(txt, word);
         num--;
     }
-
-    end = clock();
-
-
-
 
 }
