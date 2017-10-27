@@ -5,7 +5,6 @@
 #include <string.h>
 #include <time.h>
 
-
 int* prefixos(char palavra[]){
     int len = strlen(palavra);
     int *prefix = (int*) calloc(len, sizeof(int));
@@ -27,12 +26,7 @@ int* prefixos(char palavra[]){
 
     int x;
     return prefix;
-
 }
-
-
-
-
 
 void KMP(char texto[], char palavra[]){
     int *F = prefixos(palavra);
@@ -41,7 +35,6 @@ void KMP(char texto[], char palavra[]){
     int n = strlen(texto);
     int m = strlen(palavra);
     int find = 0;
-
 
     while(i < n){
         if(texto[i] == palavra[j]){
@@ -65,9 +58,6 @@ void KMP(char texto[], char palavra[]){
     if(find == 0) printf("-1\n");
 }
 
-
-
-
 void main(){
 
     int num;
@@ -86,5 +76,4 @@ void main(){
         KMP(txt, word);
         num--;
     }
-
 }
